@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./promise.js"></script>
+</head>
+<body>
+    <script>
+        var a = new promise(function(resolve, reject){
+            setTimeout(function(){
+                console.log('success')
+                resolve(true)
+            }, 1000)
+        })
+
+        var b = new promise(function(resolve, reject){
+            resolve("我是B")
+        })
+        
+        a.then(function(res){
+            console.log(res);
+            return "qianzhaoy"
+        })
+
+        a.then(function(res){
+            console.log(res);
+            return "啦拉拉"
+        }).then(function(res){
+            console.log(res);
+            return b
+        }).then(function(res){
+            console.log(res)
+        }).catch(function(err){
+            console.log(err)
+        })
+
+        // var b = new Promise(function(resolve, reject){
+        //     setTimeout(function(){
+        //         console.log("real Promise");
+        //         resolve(true)
+        //     }, 1000)
+        // })
+
+        // b.then(123)
+
+        // b.then(function(res){
+        //     console.log("two", res)
+        // })
+    </script>
+</body>
+</html>
