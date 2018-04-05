@@ -1,17 +1,19 @@
 (function (window) {
 
     function promise(func) {
-        this.status = null;
+        this.status = "pending";
         this.data = null;
         this.queue = [];
         this.failCb = null;
-        func && func.call(this, promise.resolve.bind(this), promise.reject.bind(this))
+        setTimeout(function(){
+            func && func.call(this, promise.resolve.bind(this), promise.reject.bind(this))
+        }, 0);
         return this;
     }
 
     promise.resolve = function (data) {
         var context = this;
-        context.status = 'success';
+        context.status = 'resolve';
         context.data = data;
         var func = context.queue.shift();
         if(func){
@@ -28,7 +30,7 @@
     }
 
     promise.reject = function (data) {
-        this.status = 'fail';
+        this.status = 'reject';
         this.data = data;
         if(this.failCb){
             this.failCb(data)
