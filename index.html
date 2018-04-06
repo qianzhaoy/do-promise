@@ -21,7 +21,7 @@
         })
         
         a.then(function(res){
-            console.log(res);
+            console.log('first', res);
             return "qianzhaoy"
         })
 
@@ -31,6 +31,8 @@
         }).then(function(res){
             console.log(res);
             return b
+        }).then(function(res){
+            console.log(res)
         }).then(function(res){
             console.log(res)
         }).catch(function(err){
@@ -43,24 +45,6 @@
                 console.log("settimeout: ", res)
             })
         },2000)
-
-
-        var c = new Promise(function(resolve, reject){
-            setTimeout(function(){
-                console.log("ccccccc");
-                resolve(true)
-            }, 1000)
-        })
-
-        c.then(function(res){
-            console.log("c:" , res)
-            return "12"
-        })
-        setTimeout(function(){
-            c.then(function(res) {
-                console.log("cccc:", res);
-            })
-        }, 2000)
     </script>
 </body>
 </html>
