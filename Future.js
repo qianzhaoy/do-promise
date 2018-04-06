@@ -19,7 +19,7 @@
         this.status = RESOLVE;
         this.data = data;
         
-        for (let i = 0; i < this.queue.length; i++) {
+        for (var i = 0; i < this.queue.length; i++) {
             var obj = this.queue[i];
             try {
                 var d = obj.cb(data);
@@ -36,7 +36,12 @@
     Future.reject = function (data) {
         this.status = REJECT;
         this.data = data;
-        if (this.failCb) {
+        if(this.queue.length){
+            for (var i = 0; i < this.queue.length; i++) {
+                Future.reject.call(this.queue[i].future, data);
+            }
+            return;
+        }else if (this.failCb) {
             this.failCb(data)
         } else {
             throw new Error("Future need catch")
@@ -63,18 +68,12 @@
                     future: thatFuture,
                     cb: callback
                 });
-                
                 break;
 
             default:
                 Future.reject.call(thatFuture, this.data)
                 break;
         }
-        // if (this.status === RESOLVE) {
-        //     this.data = callback(this.data);
-        // } else if (this.status === PENDING) {
-        //     this.queue.push(callback);
-        // }
 
         return thatFuture;
     }
